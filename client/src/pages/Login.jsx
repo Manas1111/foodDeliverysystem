@@ -12,7 +12,6 @@ export default function Login() {
   const [form, setForm]       = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
 
-  // Already logged in → redirect
   if (user) return <>{navigate(from, { replace: true })}</>
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -22,7 +21,9 @@ export default function Login() {
     setLoading(true)
     try {
       const u = await login(form.email, form.password)
-      toast.success(`Welcome back, ${u.name.split(' ')[0]}! 🎉`)
+      toast.success(`Welcome back, ${u.name.split(' ')[0]}! 🎉`, {
+        style: { background: '#1e1e1e', color: '#fff', border: '1px solid rgba(255,107,0,0.3)' },
+      })
       navigate(u.role === 'admin' ? '/admin' : from, { replace: true })
     } catch (err) {
       toast.error(err.response?.data?.error || 'Login failed')
@@ -37,59 +38,54 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-orange-50 via-amber-50/50 to-slate-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
-        
-        {/* Header */}
+    <div className="min-h-[calc(100vh-64px)] bg-dark-950 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background glows */}
+      <div className="glow-orb w-96 h-96 bg-crave-600/15 -top-32 -left-32" />
+      <div className="glow-orb w-64 h-64 bg-amber-500/10 -bottom-20 right-0" />
+
+      <div className="relative z-10 w-full max-w-md animate-slide-up space-y-5">
+
+        {/* Logo header */}
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-tr from-orange-500 to-amber-400 rounded-2xl flex items-center justify-center text-3xl shadow-glow">
-            🍔
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-crave-500 to-amber-400 rounded-2xl flex items-center justify-center text-3xl shadow-glow-orange">
+            🛺
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Welcome to FoodRush
+          <h1 className="text-3xl font-black text-white tracking-tight">
+            Welcome to <span className="gradient-text">CraveKart</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Sign in to order gourmet meals with fast delivery
-          </p>
+          <p className="text-white/40 text-sm mt-1">Sign in to order your favorite meals</p>
         </div>
 
-        {/* Demo credentials box */}
-        <div className="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 shadow-xs">
-          <p className="text-xs font-bold text-amber-900 mb-2.5 flex items-center gap-1.5">
-            <span>🎯</span> Quick Demo Auto-fill:
+        {/* Demo cards */}
+        <div className="glass-card p-4">
+          <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            🎯 Quick Demo Auto-fill
           </p>
-          <div className="flex gap-2.5">
-            <button
-              type="button"
-              onClick={() => fillDemo('customer')}
-              className="flex-1 text-left bg-white border border-amber-200 rounded-xl p-3 hover:bg-orange-50/60 hover:border-orange-300 transition-all shadow-xs"
-            >
-              <p className="font-extrabold text-slate-900 text-xs flex items-center gap-1">
-                <span>👤</span> Customer
-              </p>
-              <p className="text-[11px] text-slate-500 mt-0.5">customer@demo.com</p>
-              <p className="text-[10px] text-orange-600 font-bold">demo123</p>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => fillDemo('admin')}
-              className="flex-1 text-left bg-white border border-amber-200 rounded-xl p-3 hover:bg-orange-50/60 hover:border-orange-300 transition-all shadow-xs"
-            >
-              <p className="font-extrabold text-slate-900 text-xs flex items-center gap-1">
-                <span>⚙️</span> Admin
-              </p>
-              <p className="text-[11px] text-slate-500 mt-0.5">admin@demo.com</p>
-              <p className="text-[10px] text-orange-600 font-bold">admin123</p>
-            </button>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { type: 'customer', icon: '👤', role: 'Customer', email: 'customer@demo.com', pass: 'demo123' },
+              { type: 'admin',    icon: '⚙️', role: 'Admin',    email: 'admin@demo.com',    pass: 'admin123' },
+            ].map(d => (
+              <button
+                key={d.type}
+                onClick={() => fillDemo(d.type)}
+                className="text-left bg-dark-800/60 border border-white/[0.07] hover:border-crave-500/40 hover:bg-dark-700/80 rounded-xl p-3 transition-all group"
+              >
+                <p className="font-bold text-white text-xs flex items-center gap-1 mb-1 group-hover:text-crave-400 transition-colors">
+                  {d.icon} {d.role}
+                </p>
+                <p className="text-[11px] text-white/30">{d.email}</p>
+                <p className="text-[11px] text-crave-500 font-bold">{d.pass}</p>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Form Card */}
-        <div className="card p-6 sm:p-8 shadow-elevated">
+        {/* Login form */}
+        <div className="glass-card p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-white/40 uppercase tracking-wider mb-1.5">
                 Email Address
               </label>
               <input
@@ -98,13 +94,13 @@ export default function Login() {
                 value={form.email}
                 onChange={handleChange}
                 className="input-field text-sm"
-                placeholder="customer@demo.com"
+                placeholder="your@email.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-white/40 uppercase tracking-wider mb-1.5">
                 Password
               </label>
               <input
@@ -121,16 +117,26 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full py-3 mt-2 text-sm font-extrabold"
+              className="btn-primary w-full py-3.5 mt-2 text-sm font-black shadow-glow-orange"
             >
-              {loading ? 'Authenticating...' : 'Sign In'}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Signing in...
+                </span>
+              ) : (
+                '🚀 Sign In to CraveKart'
+              )}
             </button>
           </form>
 
-          <p className="text-center text-xs text-slate-500 mt-6">
+          <p className="text-center text-xs text-white/30 mt-5">
             Don't have an account?{' '}
-            <Link to="/register" className="text-orange-600 font-bold hover:underline">
-              Create one now
+            <Link to="/register" className="text-crave-400 font-bold hover:text-crave-300 transition-colors">
+              Create one free →
             </Link>
           </p>
         </div>

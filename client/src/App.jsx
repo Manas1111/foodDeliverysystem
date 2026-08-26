@@ -11,7 +11,7 @@ import AdminDashboard   from './pages/AdminDashboard'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-dark-950 text-white">
       <Navbar />
       <main>
         <Routes>

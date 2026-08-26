@@ -90,30 +90,33 @@ export default function Cart() {
 
   if (cart.length === 0) {
     return (
-      <div className="max-w-md mx-auto px-4 py-24 text-center">
-        <div className="w-24 h-24 mx-auto mb-4 bg-orange-100 rounded-full flex items-center justify-center text-4xl shadow-inner">
-          🛒
+      <div className="min-h-[calc(100vh-64px)] bg-dark-950 flex items-center justify-center p-4">
+        <div className="text-center animate-scale-in">
+          <div className="w-24 h-24 mx-auto mb-5 bg-crave-500/10 rounded-full flex items-center justify-center text-5xl border border-crave-500/20">
+            🛒
+          </div>
+          <h2 className="text-2xl font-black text-white mb-2">Your cart is empty</h2>
+          <p className="text-sm text-white/40 mb-6">Explore our restaurants and add some mouthwatering dishes!</p>
+          <Link to="/" className="btn-primary px-8 py-3 text-sm">
+            Browse Restaurants
+          </Link>
         </div>
-        <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Your cart is empty</h2>
-        <p className="text-sm text-slate-500 mb-6">Explore our curated restaurants and add some mouthwatering dishes!</p>
-        <Link to="/" className="btn-primary px-8 py-3 text-sm">
-          Browse Restaurants
-        </Link>
       </div>
     )
   }
 
   return (
+    <div className="min-h-screen bg-dark-950">
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       
       {/* Title */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+        <h1 className="text-2xl sm:text-3xl font-black text-white">
           Order Summary & Checkout
         </h1>
         <button
           onClick={() => clearCart(true)}
-          className="text-xs font-bold text-rose-500 hover:text-rose-700 transition-colors"
+          className="text-xs font-bold text-red-400 hover:text-red-300 transition-colors"
         >
           🗑️ Clear Cart
         </button>
@@ -126,8 +129,8 @@ export default function Cart() {
           
           {/* Restaurant header card */}
           <div className="card p-5">
-            <div className="flex items-center gap-3.5 pb-4 border-b border-slate-100 mb-4">
-              <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+            <div className="flex items-center gap-3.5 pb-4 border-b border-white/[0.06] mb-4">
+              <div className="w-12 h-12 rounded-xl overflow-hidden bg-dark-700 shrink-0">
                 <img
                   src={restaurantImage || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=200&q=80'}
                   alt={restaurantName}
@@ -135,48 +138,48 @@ export default function Cart() {
                 />
               </div>
               <div>
-                <p className="text-xs text-orange-600 font-bold uppercase tracking-wider">Ordering from</p>
-                <h3 className="text-lg font-extrabold text-slate-900 leading-tight">{restaurantName}</h3>
+                <p className="text-xs text-crave-500 font-bold uppercase tracking-wider">Ordering from</p>
+                <h3 className="text-lg font-black text-white leading-tight">{restaurantName}</h3>
               </div>
             </div>
 
             {/* Cart Items List */}
-            <div className="space-y-3 divide-y divide-slate-100">
+            <div className="space-y-3 divide-y divide-white/[0.05]">
               {cart.map((item) => (
                 <div key={item.cart_id} className="pt-3 first:pt-0 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 flex-1">
-                    <span className={`w-3.5 h-3.5 rounded-xs border shrink-0 flex items-center justify-center ${
-                      item.is_veg ? 'border-emerald-600' : 'border-rose-600'
+                    <span className={`w-3.5 h-3.5 rounded-sm border-2 shrink-0 flex items-center justify-center ${
+                      item.is_veg ? 'border-emerald-500' : 'border-red-500'
                     }`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${
-                        item.is_veg ? 'bg-emerald-600' : 'bg-rose-600'
+                        item.is_veg ? 'bg-emerald-500' : 'bg-red-500'
                       }`} />
                     </span>
                     <div>
-                      <p className="font-bold text-slate-900 text-sm">{item.name}</p>
-                      <p className="text-xs text-slate-400">₹{item.price} each</p>
+                      <p className="font-bold text-white text-sm">{item.name}</p>
+                      <p className="text-xs text-white/35">₹{item.price} each</p>
                     </div>
                   </div>
 
                   {/* Quantity Stepper */}
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center bg-slate-100 rounded-xl overflow-hidden text-xs font-bold">
+                    <div className="flex items-center bg-crave-500 text-white rounded-xl overflow-hidden text-xs font-black shadow-glow-sm">
                       <button
                         onClick={() => handleQtyChange(item, -1)}
-                        className="px-2.5 py-1.5 hover:bg-slate-200 text-slate-700 transition-colors"
+                        className="px-2.5 py-1.5 hover:bg-crave-600 transition-colors"
                       >
                         −
                       </button>
-                      <span className="px-2 text-slate-900 font-extrabold">{item.quantity}</span>
+                      <span className="px-2 font-black">{item.quantity}</span>
                       <button
                         onClick={() => handleQtyChange(item, +1)}
-                        className="px-2.5 py-1.5 hover:bg-slate-200 text-slate-700 transition-colors"
+                        className="px-2.5 py-1.5 hover:bg-crave-600 transition-colors"
                       >
                         +
                       </button>
                     </div>
 
-                    <span className="font-extrabold text-slate-900 text-sm w-16 text-right">
+                    <span className="font-black text-white text-sm w-16 text-right">
                       ₹{(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
@@ -187,7 +190,7 @@ export default function Cart() {
 
           {/* Delivery Address & Instructions */}
           <div className="card p-5 space-y-4">
-            <h3 className="font-extrabold text-slate-900 text-base flex items-center gap-2">
+            <h3 className="font-black text-white text-base flex items-center gap-2">
               <span>📍</span> Delivery Address & Notes
             </h3>
 
@@ -200,8 +203,8 @@ export default function Cart() {
                   onClick={() => setDeliveryAddress(p.address)}
                   className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-all ${
                     deliveryAddress === p.address
-                      ? 'bg-orange-50 text-orange-600 border-orange-300'
-                      : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                      ? 'bg-crave-500/20 text-crave-400 border-crave-500/40'
+                      : 'bg-white/[0.04] text-white/50 border-white/[0.07] hover:border-white/20'
                   }`}
                 >
                   {p.label}
@@ -233,7 +236,7 @@ export default function Cart() {
 
           {/* Payment Method Selector */}
           <div className="card p-5 space-y-3">
-            <h3 className="font-extrabold text-slate-900 text-base flex items-center gap-2">
+            <h3 className="font-black text-white text-base flex items-center gap-2">
               <span>💳</span> Payment Method
             </h3>
 
@@ -243,8 +246,8 @@ export default function Cart() {
                   key={method.id}
                   className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer transition-all ${
                     paymentMethod === method.id
-                      ? 'bg-orange-50/70 border-orange-400 shadow-xs'
-                      : 'bg-white border-slate-200 hover:border-slate-300'
+                      ? 'bg-crave-500/10 border-crave-500/40'
+                      : 'bg-white/[0.03] border-white/[0.07] hover:border-white/15'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -257,14 +260,14 @@ export default function Cart() {
                       className="accent-orange-500 w-4 h-4"
                     />
                     <div>
-                      <p className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                      <p className="text-sm font-bold text-white flex items-center gap-1.5">
                         <span>{method.icon}</span> {method.label}
                       </p>
-                      <p className="text-xs text-slate-400">{method.desc}</p>
+                      <p className="text-xs text-white/35">{method.desc}</p>
                     </div>
                   </div>
                   {paymentMethod === method.id && (
-                    <span className="text-xs font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-bold text-crave-400 bg-crave-500/15 px-2 py-0.5 rounded-full border border-crave-500/30">
                       Selected
                     </span>
                   )}
@@ -279,21 +282,21 @@ export default function Cart() {
           
           {/* Coupon Codes & Promotions */}
           <div className="card p-5 space-y-3">
-            <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
+            <h3 className="font-black text-white text-sm flex items-center gap-2">
               <span>🏷️</span> Apply Promo Coupon
             </h3>
 
             {coupon ? (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between">
+              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-extrabold text-emerald-800 flex items-center gap-1">
+                  <p className="text-xs font-black text-emerald-400 flex items-center gap-1">
                     <span>🎉</span> {coupon.code} Applied!
                   </p>
-                  <p className="text-[11px] text-emerald-600 font-semibold">{coupon.description}</p>
+                  <p className="text-[11px] text-emerald-400/70 font-semibold">{coupon.description}</p>
                 </div>
                 <button
                   onClick={removeCoupon}
-                  className="text-xs font-bold text-rose-600 hover:text-rose-800"
+                  className="text-xs font-bold text-red-400 hover:text-red-300 transition-colors"
                 >
                   Remove
                 </button>
@@ -315,18 +318,18 @@ export default function Cart() {
 
             {/* Quick Available Coupons list */}
             <div className="pt-2 space-y-1.5">
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Available for you:</p>
+              <p className="text-[11px] font-bold text-white/25 uppercase tracking-wider">Available for you:</p>
               {availableCoupons.map((c) => (
                 <div
                   key={c.code}
                   onClick={() => applyCoupon(c.code)}
-                  className="p-2 bg-slate-50 hover:bg-orange-50/60 rounded-xl border border-slate-100 cursor-pointer flex items-center justify-between transition-colors"
+                  className="p-2.5 bg-white/[0.03] hover:bg-crave-500/10 rounded-xl border border-white/[0.06] hover:border-crave-500/30 cursor-pointer flex items-center justify-between transition-all"
                 >
                   <div>
-                    <span className="font-extrabold text-xs text-orange-600">{c.code}</span>
-                    <p className="text-[10px] text-slate-500">{c.description}</p>
+                    <span className="font-black text-xs text-crave-400">{c.code}</span>
+                    <p className="text-[10px] text-white/30 mt-0.5">{c.description}</p>
                   </div>
-                  <span className="text-[11px] font-bold text-orange-500 hover:underline">
+                  <span className="text-[11px] font-bold text-crave-500">
                     Apply
                   </span>
                 </div>
@@ -337,11 +340,11 @@ export default function Cart() {
           {/* Delivery Tip */}
           <div className="card p-5 space-y-3">
             <div className="flex justify-between items-center">
-              <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-                <span>🚴</span> Rider Tip (100% goes to driver)
+              <h3 className="font-black text-white text-sm flex items-center gap-2">
+                <span>🚴</span> Rider Tip
               </h3>
               {tip > 0 && (
-                <button onClick={() => setTip(0)} className="text-xs text-slate-400 hover:text-slate-600">
+                <button onClick={() => setTip(0)} className="text-xs text-white/30 hover:text-white/60 transition-colors">
                   Clear
                 </button>
               )}
@@ -355,8 +358,8 @@ export default function Cart() {
                   onClick={() => setTip(tip === amount ? 0 : amount)}
                   className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
                     tip === amount
-                      ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
-                      : 'bg-white text-slate-700 border-slate-200 hover:border-orange-300'
+                      ? 'bg-crave-500 text-white border-crave-500 shadow-glow-sm'
+                      : 'bg-white/[0.04] text-white/50 border-white/[0.07] hover:border-crave-500/30 hover:text-white'
                   }`}
                 >
                   ₹{amount}
@@ -367,41 +370,41 @@ export default function Cart() {
 
           {/* Itemized Bill Breakdown */}
           <div className="card p-5 space-y-3">
-            <h3 className="font-extrabold text-slate-900 text-base mb-2">Bill Details</h3>
+            <h3 className="font-black text-white text-base mb-2">Bill Details</h3>
 
             <div className="space-y-2 text-xs sm:text-sm">
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-white/50">
                 <span>Item Subtotal</span>
-                <span className="font-semibold text-slate-800">₹{total.toFixed(2)}</span>
+                <span className="font-bold text-white/80">₹{total.toFixed(2)}</span>
               </div>
 
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-white/50">
                 <span>Delivery Partner Fee</span>
                 {deliveryFee === 0 ? (
-                  <span className="font-bold text-emerald-600">FREE</span>
+                  <span className="font-bold text-emerald-400">FREE</span>
                 ) : (
-                  <span className="font-semibold text-slate-800">₹{deliveryFee.toFixed(2)}</span>
+                  <span className="font-bold text-white/80">₹{deliveryFee.toFixed(2)}</span>
                 )}
               </div>
 
               {discountAmount > 0 && (
-                <div className="flex justify-between text-emerald-600 font-bold">
-                  <span>Coupon Discount ({coupon?.code})</span>
+                <div className="flex justify-between text-emerald-400 font-bold">
+                  <span>Coupon ({coupon?.code})</span>
                   <span>- ₹{discountAmount.toFixed(2)}</span>
                 </div>
               )}
 
               {tip > 0 && (
-                <div className="flex justify-between text-slate-600">
-                  <span>Delivery Partner Tip</span>
-                  <span className="font-semibold text-slate-800">₹{tip.toFixed(2)}</span>
+                <div className="flex justify-between text-white/50">
+                  <span>Rider Tip</span>
+                  <span className="font-bold text-white/80">₹{tip.toFixed(2)}</span>
                 </div>
               )}
 
               {/* Grand Total */}
-              <div className="border-t border-slate-200 pt-3 flex justify-between items-baseline font-extrabold text-slate-900 text-lg">
-                <span>Grand Total</span>
-                <span className="text-xl text-orange-600">₹{grandTotal.toFixed(2)}</span>
+              <div className="border-t border-white/[0.08] pt-3 flex justify-between items-baseline font-black text-lg">
+                <span className="text-white">Grand Total</span>
+                <span className="text-xl text-crave-400">₹{grandTotal.toFixed(2)}</span>
               </div>
             </div>
 
@@ -409,17 +412,23 @@ export default function Cart() {
             <button
               onClick={handlePlaceOrder}
               disabled={placing}
-              className="btn-primary w-full py-3.5 mt-4 text-base font-extrabold shadow-lg"
+              className="btn-primary w-full py-4 mt-2 text-base font-black shadow-glow-orange"
             >
-              {placing ? 'Securing your order...' : `Pay & Place Order · ₹${grandTotal.toFixed(2)}`}
+              {placing ? (
+                <span className="flex items-center gap-2 justify-center">
+                  <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                  Placing order...
+                </span>
+              ) : `🚀 Pay & Order · ₹${grandTotal.toFixed(2)}`}
             </button>
 
-            <p className="text-[11px] text-center text-slate-400">
-              🔒 Safe & Secure Checkout via Encrypted Gateway
+            <p className="text-[11px] text-center text-white/25">
+              🔒 SSL-Encrypted · Safe & Secure Checkout
             </p>
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }
