@@ -1,6 +1,6 @@
 # FoodRush — Gourmet Food Delivery System
 
-A full-stack food delivery web application with real-time order tracking, gourmet restaurant browsing, cart management, and an admin operations command center.
+A full-stack food delivery web application with real-time order tracking, gourmet restaurant browsing, cart management, and an admin operations command center. Created by Manas Sharma
 
 ## ✨ Features
 
