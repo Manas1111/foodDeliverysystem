@@ -1,17 +1,20 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import api from '../api/client'
+import { initStore, authLogin, authRegister } from '../store/store'
+
+// Initialize localStorage with seed data on first load
+initStore()
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(() => {
+  const [user, setUser] = useState(() => {
     const stored = localStorage.getItem('fd_user')
     return stored ? JSON.parse(stored) : null
   })
   const [loading, setLoading] = useState(false)
 
   const login = async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password })
+    const data = authLogin(email, password)
     localStorage.setItem('fd_token', data.token)
     localStorage.setItem('fd_user',  JSON.stringify(data.user))
     setUser(data.user)
@@ -19,7 +22,7 @@ export function AuthProvider({ children }) {
   }
 
   const register = async (name, email, password) => {
-    const { data } = await api.post('/auth/register', { name, email, password })
+    const data = authRegister(name, email, password)
     localStorage.setItem('fd_token', data.token)
     localStorage.setItem('fd_user',  JSON.stringify(data.user))
     setUser(data.user)

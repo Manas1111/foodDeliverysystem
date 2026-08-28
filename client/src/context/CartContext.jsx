@@ -76,30 +76,33 @@ export function CartProvider({ children }) {
       toast.success('Added to cart! 🛒')
     } catch (err) {
       if (err.response?.status === 409 && err.response?.data?.differentRestaurant) {
-        toast((t) => (
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-semibold text-slate-800">Switch Restaurant?</p>
-            <p className="text-xs text-slate-500">Your cart has items from another restaurant. Clear and replace?</p>
-            <div className="flex gap-2 mt-1">
-              <button
-                onClick={async () => {
-                  toast.dismiss(t.id)
-                  await clearCart(false)
-                  await addToCart(menuItemId, quantity)
-                }}
-                className="bg-orange-500 text-white text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600"
-              >
-                Clear & Add
-              </button>
-              <button
-                onClick={() => toast.dismiss(t.id)}
-                className="bg-slate-100 text-slate-600 text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-slate-200"
-              >
-                Cancel
-              </button>
+        toast((t) => {
+          const dismiss = () => toast.dismiss(t.id)
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <p style={{ fontWeight: 600, margin: 0 }}>Switch Restaurant?</p>
+              <p style={{ fontSize: '12px', color: '#64748b', margin: 0 }}>Your cart has items from another restaurant. Clear and replace?</p>
+              <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                <button
+                  onClick={async () => {
+                    dismiss()
+                    await clearCart(false)
+                    await addToCart(menuItemId, quantity)
+                  }}
+                  style={{ background: '#f97316', color: '#fff', border: 'none', borderRadius: '8px', padding: '6px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '12px' }}
+                >
+                  Clear & Add
+                </button>
+                <button
+                  onClick={dismiss}
+                  style={{ background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '8px', padding: '6px 12px', fontWeight: 600, cursor: 'pointer', fontSize: '12px' }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-        ), { duration: 6000 })
+          )
+        }, { duration: 6000 })
       } else {
         toast.error(err.response?.data?.error || 'Failed to add to cart')
       }
